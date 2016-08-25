@@ -31,7 +31,9 @@ module.exports = function (kibana) {
           'ui/vislib',
           'ui/agg_response',
           'ui/agg_types',
-          'leaflet'
+          'leaflet',
+
+          'angular-chosen-localytics'
         ),
 
         injectVars: function (server, options) {

@@ -1,6 +1,9 @@
 define(function (require) {
-  const app = require('ui/modules').get('apps/discover');
+  require('chosen-js');
+  require('chosen-js/chosen.css');
+  require('angular-chosen-localytics');
 
+  const app = require('ui/modules').get('apps/discover', ['localytics.directives']);
 
   require('ui/directives/css_truncate');
   require('ui/directives/field_name');
@@ -49,9 +52,9 @@ define(function (require) {
             missing: true
           },
           boolOpts: [
-            {label: 'any', value: undefined },
-            {label: 'yes', value: true },
-            {label: 'no', value: false }
+            {label: 'any', value: undefined},
+            {label: 'yes', value: true},
+            {label: 'no', value: false}
           ],
           toggleVal: function (name, def) {
             if (filter.vals[name] !== def) filter.vals[name] = def;
@@ -76,7 +79,7 @@ define(function (require) {
               && isIndexed
               && scriptedOrMissing
               && matchName
-            ;
+              ;
           },
           popularity: function (field) {
             return field.count > 0;
@@ -118,32 +121,32 @@ define(function (require) {
 
           // group the fields into popular and up-popular lists
           _.chain(fields)
-          .each(function (field) {
-            field.displayOrder = _.indexOf(columns, field.name) + 1;
-            field.display = !!field.displayOrder;
-            field.rowCount = fieldCounts[field.name];
-          })
-          .sortBy(function (field) {
-            return (field.count || 0) * -1;
-          })
-          .groupBy(function (field) {
-            if (field.display) return 'selected';
-            return field.count > 0 ? 'popular' : 'unpopular';
-          })
-          .tap(function (groups) {
-            groups.selected = _.sortBy(groups.selected || [], 'displayOrder');
+            .each(function (field) {
+              field.displayOrder = _.indexOf(columns, field.name) + 1;
+              field.display = !!field.displayOrder;
+              field.rowCount = fieldCounts[field.name];
+            })
+            .sortBy(function (field) {
+              return (field.count || 0) * -1;
+            })
+            .groupBy(function (field) {
+              if (field.display) return 'selected';
+              return field.count > 0 ? 'popular' : 'unpopular';
+            })
+            .tap(function (groups) {
+              groups.selected = _.sortBy(groups.selected || [], 'displayOrder');
 
-            groups.popular = groups.popular || [];
-            groups.unpopular = groups.unpopular || [];
+              groups.popular = groups.popular || [];
+              groups.unpopular = groups.unpopular || [];
 
-            // move excess popular fields to un-popular list
-            const extras = groups.popular.splice(config.get('fields:popularLimit'));
-            groups.unpopular = extras.concat(groups.unpopular);
-          })
-          .each(function (group, name) {
-            $scope[name + 'Fields'] = _.sortBy(group, name === 'selected' ? 'display' : 'name');
-          })
-          .commit();
+              // move excess popular fields to un-popular list
+              const extras = groups.popular.splice(config.get('fields:popularLimit'));
+              groups.unpopular = extras.concat(groups.unpopular);
+            })
+            .each(function (group, name) {
+              $scope[name + 'Fields'] = _.sortBy(group, name === 'selected' ? 'display' : 'name');
+            })
+            .commit();
 
           // include undefined so the user can clear the filter
           $scope.fieldTypes = _.union([undefined], _.pluck(fields, 'type'));
@@ -154,7 +157,9 @@ define(function (require) {
         };
 
         $scope.vizLocation = function (field) {
-          if (!$scope.state) {return '';}
+          if (!$scope.state) {
+            return '';
+          }
 
           let agg = {};
           const isGeoPoint = field.type === 'geo_point';
@@ -193,20 +198,20 @@ define(function (require) {
           }
 
           return '#/visualize/create?' + $.param(_.assign($location.search(), {
-            indexPattern: $scope.state.index,
-            type: type,
-            _a: rison.encode({
-              filters: $scope.state.filters || [],
-              query: $scope.state.query || undefined,
-              vis: {
-                type: type,
-                aggs: [
-                  agg,
-                  {schema: 'metric', type: 'count', 'id': '2'}
-                ]
-              }
-            })
-          }));
+              indexPattern: $scope.state.index,
+              type: type,
+              _a: rison.encode({
+                filters: $scope.state.filters || [],
+                query: $scope.state.query || undefined,
+                vis: {
+                  type: type,
+                  aggs: [
+                    agg,
+                    {schema: 'metric', type: 'count', 'id': '2'}
+                  ]
+                }
+              })
+            }));
         };
 
         $scope.details = function (field, recompute) {
@@ -239,12 +244,12 @@ define(function (require) {
           const fieldNamesInIndexPattern = _.keys(indexPattern.fields.byName);
 
           _.difference(fieldNamesInDocs, fieldNamesInIndexPattern)
-          .forEach(function (unknownFieldName) {
-            fieldSpecs.push({
-              name: unknownFieldName,
-              type: 'unknown'
+            .forEach(function (unknownFieldName) {
+              fieldSpecs.push({
+                name: unknownFieldName,
+                type: 'unknown'
+              });
             });
-          });
 
           const fields = new FieldList(indexPattern, fieldSpecs);
 
