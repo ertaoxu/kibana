@@ -85,6 +85,7 @@
     "JSONStream": "1.1.1",
     "angular": "1.4.7",
     "angular-bootstrap-colorpicker": "3.0.19",
+    "angular-chosen-localytics": "1.6.0",
     "angular-elastic": "2.5.0",
     "angular-route": "1.4.7",
     "angular-sanitize": "1.5.7",
