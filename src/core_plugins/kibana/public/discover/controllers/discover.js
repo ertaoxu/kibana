@@ -27,11 +27,15 @@ import uiRoutes from 'ui/routes';
 import uiModules from 'ui/modules';
 import indexTemplate from 'plugins/kibana/discover/index.html';
 import StateProvider from 'ui/state_management/state';
+import 'chosen-js';
+import 'chosen-js/chosen.css';
+import 'angular-chosen-localytics';
 
 const app = uiModules.get('apps/discover', [
   'kibana/notify',
   'kibana/courier',
-  'kibana/index_patterns'
+  'kibana/index_patterns',
+  'localytics.directives',
 ]);
 
 uiRoutes

@@ -259,3 +259,36 @@ disc-field-chooser {
       width: auto;
     }
   }
+
+.kibana-index-selector .chosen-container-single {
+  .chosen-single {
+    padding: 5px 10px;
+    height: initial;
+    background: #BEBEBE;
+    color: #2D2D2D;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+    line-height: 28px;
+    font-weight: bold;
+    font-size: 14px;
+
+    > div > b {
+      background: none;
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
+      &:after {
+        content: "\F0D7";
+      }
+    }
+  }
+
+  &.chosen-container-active.chosen-with-drop .chosen-single > div > b:after  {
+    content: "\F0D8";
+  }
+}

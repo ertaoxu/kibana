@@ -101,7 +101,7 @@ describe('discover field chooser directives', function () {
 
   describe('Index list', function () {
     it('should be in alphabetical order', function (done) {
-      expect($elem.find('li.sidebar-item-title').text()).to.be('abc');
+      expect($elem.find('.kibana-index-selector ul.chosen-results li.active-result').text()).to.be('abc');
       done();
     });
   });
